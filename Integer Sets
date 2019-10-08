@@ -1,0 +1,149 @@
+// IntegerSet.h
+// Header file for class IntegerSet
+
+#ifndef INTEGER_SET_H
+#define INTEGER_SET_H
+
+class IntegerSet
+{
+public:
+IntegerSet(); // constructor
+
+/* Write a member funcion prototype for UnionOfSets */
+void unionOfSets(IntegerSet, IntegerSet);
+void intersectionOfSets(IntegerSet, IntegerSet);
+
+void inputSet(); // read values from user
+
+void printSet() const;
+
+private:
+int set[101]; // range of 0 - 100
+
+// determines a valid entry to the set
+int validEntry(int x) const
+{
+return (x >= 0 && x <= 100);
+} // end function validEntry
+};
+
+----------------------------------------------------------------------------------------------------
+
+// IntegerSet.cpp
+// Member-function definitions for class IntegerSet.
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+#include "integerset.h"
+
+// constructor
+IntegerSet::IntegerSet()
+{
+for (int i = 0; i < 101; i++) set[i] = 0;
+} // end IntegerSet constructor
+
+// input a set from the user
+void IntegerSet::inputSet()
+{
+int number;
+
+do
+{
+cout << "Enter an element (-1 to end): ";
+cin >> number;
+
+if (validEntry(number))
+set[number] = 1;
+else if (number != -1)
+cout << "Invalid Element\n";
+} while (number != -1); // end do...while
+
+cout << "Entry complete\n";
+} // end function inputSet
+
+// prints the set to the output stream
+void IntegerSet::printSet() const
+{
+cout << “{ “;
+
+for (int u = 0; u < 101; u++)
+if (set[u]) cout << u << “ “;
+
+cout << "}" << endl;
+} // end function printSet
+
+/* Write definition for unionOfSets */
+int IntegerSet::unionOfSets(IntegerSet a, IntegerSet b) {
+
+IntegerSet c;
+for (int i = 0; i < 101; i++) {
+if ((a.set[i] == 1) || (b.set[i] == 1)) {
+c.set[i] = 1;
+}
+else {
+c.set[i] = 0;
+}
+}
+return c;
+}
+
+
+/* Write definition for intersectionOfSets */
+int IntegerSet::intersectionOfSets(IntegerSet a, IntegerSet b) {
+
+IntegerSet d;
+for (int j = 0; j < 101; j++) {
+if ((a.set[j] == 1) && (b.set[j] == 1)) {
+d.set[j] = 1;
+}
+else {
+d.set[j] = 0;
+}
+}
+return d;
+}
+
+----------------------------------------------------------------------------------------------------
+
+
+// SetTest.cpp
+// Driver program for class IntegerSet.
+
+#include <iostream>
+#include "IntegerSet.h" // IntegerSet class definition
+using namespace std;
+
+int main()
+{
+IntegerSet a;
+IntegerSet b;
+IntegerSet c;
+IntegerSet d;
+
+cout << "Enter set A:\n";
+a.inputSet();
+cout << “\nSet A is : \n”;
+a.printSet();
+
+cout << "\nEnter set B:\n";
+b.inputSet();
+cout << “\nSet B is : \n”;
+b.printSet();
+
+/* Write call to unionOfSets for object a, passing b as argument and assigning the result to c */
+c = a.unionOfSets(b);
+
+cout << "\nUnion of A and B is:\n";
+c.printSet();
+
+/* Write call to intersectionOfSets for object a, passing b as argument and assigning the result to d */
+d = a.intersectionOfSets(b);
+
+cout << "\nIntersection of A and B is:\n";
+d.printSet();
+
+
+return 0;
+}

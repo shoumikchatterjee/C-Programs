@@ -1,0 +1,48 @@
+
+
+// MonteCarlo.cpp
+
+#include <iostream>
+#include <time.h>
+#include <fstream>
+
+using namespace std;
+
+int main()
+{
+srand(time(0)); // initialize random seed
+
+int numIterations; // initialize variables
+int numInShaded = 0;
+double xcoor, ycoor;
+double pivalue;
+ofstream file;
+
+file.open("Monte.txt");
+
+cout << "Enter the number of iterations\n"; //prompt
+cin >> numIterations; //read number of iterations
+
+for (int i = 0; i < numIterations; i++) { // loops through desired number of iterations
+
+xcoor = rand() / 32767; // finds x coordinate for each iteration as random number between 0 and 1
+ycoor = rand() / 32767; // finds y coordinate for each iteration as random number between 0 and 1
+
+file << xcoor << "," << ycoor << "\n"; // prints x and y coordinates to text file separated by commas
+
+if (xcoor * xcoor + ycoor * ycoor <= 1) { // number of hits in shaded area lies within circle and thus is no more than distance 1 from origin
+
+numInShaded++;
+
+  }
+
+}
+
+pivalue = 4 * (numInShaded / numIterations); // calculates value of pi
+
+cout << "The estimated value of pi is: " << pivalue << endl;
+
+return 0;
+
+} //ends main
+

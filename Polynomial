@@ -1,0 +1,220 @@
+// Polynomial.h
+
+#include "stdafx.h"
+#include <iostream>
+using namespace std;
+
+class Polynomial {
+friend std::ostream& operator<<(std::ostream&, const Polynomial&)
+
+public:
+Polynomial(<parameters>); //Constructor
+~Polynomial(); //Destructor
+
+Polynomial& operator+(<parameters>);
+Polynomial& operator-(<parameters>);
+Polynomial& operator*(<parameters>);
+// overload assignment operator ?
+Polynomial& operator+=(<parameters>);
+Polynomial& operator-=(<parameters>);
+Polynomial& operator*=(<parameters>);
+
+// set functions (multiple functions likely)
+void set<function_name>(<parameters>);
+
+
+// get functions (multiple functions likely)
+int get<function_name> const;
+
+// print functions (if necessary)
+void print<function_name> const;
+
+private:
+// variable and array declarations
+int coefficient;
+int exponent;
+int poly1[13]; 
+int poly2[13];
+int right_term[13];
+
+} // end class Polynomial
+
+
+// Polynomial.cpp
+
+#include "stdafx.h"
+#include <iostream>
+using namespace std;
+
+#include "Polynomial.h"
+
+Polynomial::Polynomial() {
+
+int poly1[] = {0};
+int poly2[] = {0};
+int right_term[] = {0};
+
+} // end Polynomial constructor
+
+Polynomial::~Polynomial() {
+
+int poly1[] = { 0 };
+int poly2[] = { 0 };
+int right_term[] = {0};
+
+
+delete[] poly1;
+delete[] poly2;
+delete[] right_term;
+
+} // end Polynomial destructor
+
+Polynomial& Polynomial::operator+(int *poly1[], int *poly2[]) {
+int polyadd[13] = {0};
+for (int i = 0; i < 13; i += 2) {
+polyadd[i] = *poly1[i] + *poly2[i];
+}
+}
+Polynomial& Polynomial::operator-(int *poly1[], int *poly2[]) {
+int polysub[13] = {0};
+for (int i = 0; i < 13; i += 2) {
+polysub[i] = *poly1[i] + *poly2[i] * -1;
+}
+}
+Polynomial& Polynomial::operator*(int *poly1[], int *poly2[]) {
+// degree of polymult array can be no higher than 12 since each poly array is no higher than degree
+// 12 coefficients plus 12 exponents plus 1 constant yields 25 terms
+int polymult[25] = {0};
+
+for (int i = 0; i < 25; i += 2) {
+polymult[i] = *poly1[i] * *poly2[i];
+}
+for (int j = 1; j < 25; j += 2) {
+polymult[j] = *poly1[j] + *poly2[j];
+}
+}
+
+const Polynomial&operator=(const Polynomial&) {
+}
+
+Polynomial& Polynomial::operator+=(int *poly1[], int *right_term[]) {
+int polyadd[13] = { 0 };
+for (int i = 0; i < 13; i += 2) {
+polyadd[i] = *poly1[i] + *right_term[i];
+}
+}
+Polynomial& Polynomial::operator-=(int *poly1[], int *right_term[]) {
+int polysub[13] = { 0 };
+for (int i = 0; i < 13; i += 2) {
+polysub[i] = *poly1[i] + *right_term[i] * -1;
+}
+}
+
+Polynomial& Polynomial::operator*= (int *poly1[], int *right_term[]) {
+// degree of polymult array can be no higher than 12 since each poly array is no higher than degree
+// 12 coefficients plus 12 exponents plus 1 constant yields 25 terms
+int polymult[25] = {0};
+
+for (int i = 0; i < 25; i += 2) {
+polymult[i] = *poly1[i] * *right_term[i];
+}
+for (int j = 1; j < 25; j += 2) {
+polymult[j] = *poly1[j] + *right_term[j];
+}
+}
+
+ostream& operator<<(ostream& output, const Polynomial & poly) {
+output << “Polynomial 1 is: ” << poly1[] << “Polynomial 2 is:” << poly2[] << “Polynomial right_term is : ” << right_term[];
+
+return output;
+}
+
+
+// Polynomial_Main.cpp
+
+#include "stdafx.h"
+#include <iostream>
+using namespace std;
+
+#include "Polynomial.h"
+
+int main()
+{
+int poly1term;
+int poly2term;
+int right_term_number;
+Polynomial poly1[]; // create Polynomial object
+Polynomial poly2[]; // create Polynomial object
+Polynomial right_term[]; // create Polynomial object
+
+for (int i = 0; i < 13, i++) {
+cout << “Please enter the coefficients and exponents of the sixth order poly1 starting with the leading coefficient and alternating between coefficient and exponent.If any term does not exist, enter 0 for the coefficient of that term”;
+cin >> poly1term;
+poly1[i] = poly1term;
+}
+
+for (int j = 0; j < 13, j++) {
+cout << “Please enter the coefficients and exponents of the sixth order poly2 starting with the leading coefficient and alternating between coefficient and exponent.If any term does not exist, enter 0 for the coefficient of that term”;
+cin >> poly2term;
+poly1[i] = 2oly1term;
+}
+
+for (int k = 0; k < 13, k++) {
+cout << “Please enter the coefficients and exponents of the sixth order right_term starting with the leading coefficient and alternating between coefficient and exponent.If any term does not exist, enter 0 for the coefficient of that term”;
+cin >> right_term_number;
+poly1[i] = right_term_number;
+}
+
+while (1) {
+// menu of options
+int choice;
+cout << "Please enter a number from the following options \n";
+cout << "1. Add two polynomials \n";
+cout << "2. Subtract two polynomials \n";
+cout << "3. Multiply two polynomials \n";
+cout << "4. Add right term to a polynomial \n";
+cout << "5. Subtract right term from a polynomial \n";
+cout << "6. Multiply right term and a polynomial \n";
+cout << "7. Output polynomial \n";
+cout << "Enter your choice \n";
+cout << "Type end of file indicator to quit \n";
+cin >> choice;
+
+//switch structure
+// Is this proper syntax for operators?
+switch (choice) {
+case 1:
+Polynomial::operator+(poly1[i], poly2[i]);
+break;
+
+case 2:
+Polynomial::operator-(poly1[i], poly2[i])
+break;
+
+case 3:
+Polynomial::operator*(poly1[i], poly2[i]);
+break;
+
+case 4:
+Polynomial::operator+=(poly1[i], right_term[i]);
+break;
+
+case 5:
+Polynomial::operator-=(poly1[i], right_term[i]);
+break;
+
+case 6:
+Polynomial:: *= (poly1[i], right_term[i]);
+break;
+
+case 7:
+ostream& operator<<(ostream& output, const Polynomial& poly);
+break;
+
+default:
+cout << "Please enter a valid choice \n";
+break;
+}
+
+return 0;
+} // end main

@@ -1,0 +1,222 @@
+// BookList.cpp
+
+#include "stdafx.h"
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+void insert(int mylist[], int num_in_list, int new_element) {
+    if (num_in_list <= 20) {  // checks array size
+        mylist[num_in_list] = new_element;  // assigns value
+        num_in_list++;
+    }
+    else {
+        cout << "Too many array elements \n";
+    }
+}
+
+void insert_at(int mylist[], int num_in_list, int at_position, int new_element) {
+    if (num_in_list <= 20) {  // checks array size
+        for (int i = num_in_list; i > at_position; i--) {
+            mylist[i] = mylist[i - 1];  // modifies indices of remaining elements
+        }
+        mylist[at_position] = new_element; // assigns value
+        num_in_list++;
+    }
+    else {
+        cout << "Too many array elements \n";
+    }
+
+}
+
+int find_linear(int mylist[], int num_in_list, int element) {
+    for (int i = 0; i < num_in_list; i++) {
+        if (mylist[i] == element) {  // checks for match
+            return i;
+        }
+    }
+    return -1;
+}
+
+int find_binary(int mylist[], int num_in_list, int element, bool sorted) {
+    if (sorted) {
+        int lowest = 0;
+        int highest = num_in_list - 1;
+        while (lowest < highest) {  // partitions list into two halves
+            int midpoint = (lowest + highest) / 2;
+            if (mylist[midpoint] == element) {
+                return midpoint;
+            }
+            else if (mylist[midpoint] > element) {
+                highest = midpoint - 1;  // modifies high value
+            }
+            else {
+                lowest = midpoint + 1;  // modifies low value
+            }
+
+        }
+    }
+    else {
+        cout << "List needs to be sorted first before performing binary search";
+    }
+}
+
+void delete_item_position(int mylist[], int num_in_list, int position) {
+    if (num_in_list > 0) {  // checks array size
+        for (int i = position; i < num_in_list; i++) {
+            mylist[i] = mylist[i + 1];  // modifies indices of remaining elements
+        }
+        num_in_list--;
+    }
+    else {
+        cout << "There are no elements to delete \n";
+    }
+}
+
+void delete_item_isbn(int mylist[], int num_in_list, int element) {
+    if (num_in_list > 0) {  // checks array size
+        for (int i = 0; i < num_in_list; i++) {
+            if (mylist[i] == element) {  // checks for match
+                int position = i;
+                delete_item_position(mylist, num_in_list, position);
+            }
+        }
+    }
+    else {
+        cout << "There are no elements to delete \n";
+    }
+}
+
+void sort_list_selection(int mylist[], int num_in_list) {
+    bool sorted;
+    for (int i = 0; i < num_in_list; i++) {
+        int smallest = *(mylist + i);
+        for (int j = i + 1; j < num_in_list; j++) {
+            if (*(mylist + j) < smallest) {
+                smallest = *(mylist + j);
+            }
+            int temp = smallest;   // performs element swap
+            smallest = *(mylist + i);
+            *(mylist + i) = temp;
+        }
+    }
+    sorted = true;
+}
+
+void sort_list_bubble(int mylist[], int num_in_list) {
+    bool sorted;
+    for (int i = 0; i < num_in_list; i++) {
+        for (int j = 0; j < num_in_list; j++) {
+            if (*(mylist + j) > *(mylist + (j + 1))) {  // checks adjacent element values
+                int swap = *(mylist + j);               // performs element swap
+                *(mylist + j) = *(mylist + (j + 1));
+                *(mylist + (j + 1)) = swap;
+            }
+        }
+    }
+    sorted = true;
+}
+
+void print(int mylist[], int num_in_list) {
+    for (int i = 0; i < num_in_list; i++) {
+        cout << setw(4) << mylist[i];
+    }
+}
+
+int main()
+{
+    // initialize variables
+    int mylist[99];
+    int num_in_list = 1;
+    int choice;
+    int element;
+    int    new_element;
+    int position;
+    int at_position;
+    bool sorted = false;
+    while (1) {
+        // menu of options
+        cout << "Please enter a number from the following options \n";
+        cout << "1.    Insert new element at the end of the list  \n";
+        cout << "2.    Insert new element at a certain position \n";
+        cout << "3.    Find an element(with its ISBN number and list its position) using linear search \n";
+        cout << "4.    Find an element(with its ISBN number and list its position) of a sorted list using binary search \n";
+        cout << "5.    Delete an element that is at a certain position\n";
+        cout << "6.    Delete an element by using its ISBN number \n";
+        cout << "7.    Sort the list by the ISBN numbers(using selection sort) \n";
+        cout << "8.    Sort the list by the ISBN numbers(using bubble sort) \n";
+        cout << "9.    Print out the list \n";
+        cout << "Enter your choice \n";
+        cout << "Type end of file indicator to quit \n";
+        cin >> choice;
+
+        //switch structure 
+        switch (choice) {
+        case 1:
+            cout << "Enter the element \n";
+            cin >> new_element;
+            insert(mylist, num_in_list, new_element);
+            break;
+
+        case 2:
+            cout << "Enter the element \n";
+            cin >> new_element;
+            cout << "Enter which position \n";
+            cin >> at_position;
+            if (at_position < num_in_list) {
+                insert_at(mylist, num_in_list, at_position, new_element);
+            }
+            else {
+                cout << "Out of Bounds error \n";
+            }
+            break;
+
+        case 3:
+            cout << "Enter the element \n";
+            cin >> element;
+            find_linear(mylist, num_in_list, element);
+            break;
+
+        case 4:
+            cout << "Enter the element \n";
+            cin >> element;
+            find_binary(mylist, num_in_list, element, sorted);
+            break;
+
+        case 5:
+            cout << "Enter which position \n";
+            cin >> position;
+            if (position < num_in_list) {
+                delete_item_position(mylist, num_in_list, position);
+            }
+            else {
+                cout << "Out of Bounds error \n";
+            }
+            break;
+
+        case 6:
+            cout << "Enter the element \n";
+            cin >> element;
+            delete_item_isbn(mylist, num_in_list, element);
+            break;
+
+        case 7:
+            sort_list_selection(mylist, num_in_list);
+            break;
+
+        case 8:
+            sort_list_bubble(mylist, num_in_list);
+            break;
+
+        case 9:
+            print(mylist, num_in_list);
+            break;
+
+        default:
+            cout << "Please enter a valid choice \n";
+            break;
+        }
+    }
+    return 0;
+}

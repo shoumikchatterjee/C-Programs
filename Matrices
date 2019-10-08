@@ -1,0 +1,284 @@
+// Matrices.cpp
+
+#include "stdafx.h"
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+int main()
+{
+// initialize variables
+void input();
+input();
+int choice;
+
+int rownum1 = 10;
+int rownum2 = 10;
+int colnum1 = 10;
+int colnum2 = 10;
+
+
+int addition(int rownum1, int rownum2, int colnum1, int colnum2);
+int subtraction(int rownum1, int rownum2, int colnum1, int colnum2);
+int multiplication(int rownum1, int rownum2, int colnum1, int colnum2);
+int transpose(int rownum1, int colnum1);
+double determinant(int rownum1, int colnum1);
+double inverse(int rownum1, int colnum1);
+void display();
+
+
+//menu for choosing which function
+
+cout << "Menu \n";
+cout << "1. Addition \n";
+cout << "2. Subtraction \n";
+cout << "3. Multiplication \n";
+cout << "4. Transpose \n";
+cout << "5. Determinant \n";
+cout << "6. Inverse \n";
+cout << "7. Enter your choice \n";
+cout << "Type end of file indicator to quit \n";
+cin >> choice;
+
+//switch structure 
+switch (choice) {
+case 1:
+addition(rownum1, rownum2, colnum1, colnum2);
+break;
+
+case 2:
+subtraction(rownum1, rownum2, colnum1, colnum2);
+break;
+
+case 3:
+multiplication(rownum1, rownum2, colnum1, colnum2);
+break;
+
+case 4:
+transpose(rownum1, colnum1);
+break;
+
+case 5:
+determinant(rownum1, colnum1);
+break;
+
+case 6:
+inverse(rownum1, colnum1);
+break;
+
+default:
+cout << "Please enter a valid choice \n";
+break;
+}
+
+display();
+
+return 0;
+
+} //ends main
+
+
+// Call by value: xerox of original parameter is created and cannot alter the values inside main function
+
+// Call by reference: pass address (*<variable name>) of original variable as parameter (&<variable name>) and will modify original copy 
+
+//Input function to enter number of rows and columns up to 10, then input element values
+
+
+void input() {
+
+// declare matrix parameters
+int rownum1, rownum2;
+int colnum1, colnum2;
+int i, j, m, n;
+double a[10][10];
+double b[10][10];
+
+cout << "Please enter number of rows (up to 10) for 1st matrix" << endl; //prompt to enter number of rows 
+cin >> rownum1;
+
+if ((rownum1 < 1) || (rownum1 > 10)) {
+cout << "Please enter a number between 1 and 10)" << endl; //ensures proper number of rows
+cin >> rownum1;
+}
+cout << "Please enter number of columns (up to 10) for 1st matrix" << endl; //prompt to enter number of columns
+cin >> colnum1;
+if ((colnum1 < 1) || (colnum1 > 10)) {
+cout << "Please enter a number between 1 and 10" << endl; //ensures proper number of columns
+cin >> colnum1;
+}
+
+for (i = 1; i <= rownum1; i++) {
+for (j = 1; j <= colnum1; j++) {
+cout << "Please enter matrix elements starting with first row \n"; //fills matrix with elements
+cin >> a[i][j];
+}
+cout << "\n";
+}
+
+cout << "Please enter matrix elements starting with first row \n"; //fills matrix with elements
+cout << "Please enter number of rows (up to 10) for 2nd matrix \n" << endl; //prompt to enter number of rows
+cin >> rownum2;
+if ((rownum2 < 1) || (rownum2 > 10)) {
+cout << "Please enter a number between 1 and 10 " << endl; //ensures proper number of rows
+cin >> rownum2;
+}
+cout << "Please enter number of columns (up to 10) for 2nd matrix" << endl; //prompt to enter number of columns
+cin >> colnum2;
+
+if ((colnum2 < 1) || (colnum2 > 10)) {
+cout << "Please enter a number between 1 and 10 " << endl; //ensures proper number of columns
+cin >> colnum2;
+}
+
+for (m = 1; m <= rownum2; m++) {
+for (n = 1; n <= colnum2; n++) {
+cout << "Please enter matrix elements starting with first row"; //fills matrix with elements
+cin >> b[m][n];
+}
+cout << "\n";
+}
+}
+
+//Addition function with individual matrices parameters 
+int addition(int rownum1, int rownum2, int colnum1, int colnum2) {
+
+if ((rownum1 != rownum2) && (colnum1 != colnum2)) { //ensures proper dimensions
+cout << "Operation cannot be supported" << endl;
+}
+
+int u, v;
+int a[10][10];
+int b[10][10];
+int add[10][10];
+for (u = 1; u <= rownum1; u++) {
+for (v = 1; v <= colnum1; v++) {
+add[u][v] = a[u][v] + b[u][v];
+int result = add[u][v];
+return result;
+cout << "\t";
+}
+cout << "\n";
+}
+}
+
+//Subtraction function with individual matrices parameters 
+int subtraction(int rownum1, int rownum2, int colnum1, int colnum2) {
+
+if ((rownum1 != rownum2) && (colnum1 != colnum2)) { //ensures proper dimensions
+cout << "Operation cannot be supported" << endl;
+}
+
+int u, v;
+int a[10][10];
+int b[10][10];
+int subt[10][10];
+
+for (u = 1; u <= rownum1; u++) {
+for (v = 1; v <= colnum1; v++) {
+subt[u][v] = a[u][v] - b[u][v]; //performs operation element by element
+int result = subt[u][v];
+return result;
+cout << "\t";
+}
+cout << "\n";
+}
+}
+
+//Multiplication function with individual matrices parameters 
+int multiplication(int rownum1, int rownum2, int colnum1, int colnum2) {
+
+if (colnum1 != rownum2) {
+cout << "Operation cannot be supported" << endl; //ensures proper dimensions
+}
+
+int p, q, r;
+int multfactor = colnum1;
+int a[10][10];
+int b[10][10];
+int mult[10][10] = { 0 };
+for (p = 1; p <= rownum1; p++) {
+for (q = 1; q <= colnum1; q++) {
+for (r = 1; r <= multfactor; r++) {
+mult[p][q] += a[p][r] * b[r][q]; //performs operation element by element and sums value
+int result = mult[p][q];
+return result;
+}
+cout << "\t";
+}
+cout << "\n";
+}
+
+}
+
+//Transpose function with individual matrix parameters 
+int transpose(int rownum1, int colnum1) {
+
+int u, v;
+int temp;
+int a[10][10];
+int trans[10][10];
+
+for (u = 1; u <= rownum1; u++) {
+for (v = 1; v <= colnum1; v++) {
+temp = a[u][v]; // temp variable ensures original value is not lost
+trans[v][u] = temp; // exchanges element values
+int result = trans[u][v];
+return result;
+cout << "\t";
+}
+cout << "\n";
+}
+
+}
+
+//Determinant function with individual matrix parameters
+double determinant(int rownum1, int colnum1) {
+
+if ((rownum1 != 3) && (colnum1 != 3)) {
+cout << "Operation cannot be supported" << endl; //ensures proper dimensions
+}
+
+double a[10][10];
+double det = a[1][1] * (a[2][2] * a[3][3] - a[2][3] * a[3][2]) - a[1][2] * (a[2][1] * a[3][3] - a[2][3] * a[3][1]) + a[1][3] * (a[2][1] * a[3][2] - a[2][2] * a[3][1]); //uses formula to compute value
+
+double result = det;
+
+return result;
+}
+
+//Inverse function with individual matrix parameters
+double inverse(int rownum1, int colnum1) {
+
+int u = rownum1;
+int v = colnum1;
+if ((u != 3) && (v != 3)) {
+cout << "Operation cannot be supported" << endl; //ensures proper dimensions
+}
+
+double a[10][10];
+double inv[10][10];
+double coef = determinant(rownum1, colnum1);
+
+//uses formula to compute element values
+inv[1][1] = (1 / coef) * (a[2][2] * a[3][3] - a[2][3] * a[3][2]);
+inv[1][2] = (1 / coef) * (a[1][3] * a[3][2] - a[1][2] * a[3][3]);
+inv[1][3] = (1 / coef) * (a[1][3] * a[2][3] - a[1][3] * a[2][2]);
+inv[2][1] = (1 / coef) * (a[2][3] * a[3][1] - a[2][1] * a[3][3]);
+inv[2][2] = (1 / coef) * (a[1][2] * a[3][3] - a[1][3] * a[3][1]);
+inv[2][3] = (1 / coef) * (a[1][3] * a[2][1] - a[1][1] * a[2][3]);
+inv[3][1] = (1 / coef) * (a[2][1] * a[3][2] - a[2][2] * a[3][1]);
+inv[3][2] = (1 / coef) * (a[1][2] * a[3][1] - a[1][1] * a[3][2]);
+inv[3][3] = (1 / coef) * (a[1][1] * a[2][2] - a[1][2] * a[2][1]);
+
+double result = inv[1][1];
+return result;
+}
+
+
+void display() {
+cout << "The result is: " << result << endl; //shows the result of desired operation
+
+int main(); //returns to menu
+}

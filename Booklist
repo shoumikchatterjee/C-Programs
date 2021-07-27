@@ -131,7 +131,7 @@ int main()
     int num_in_list = 1;
     int choice;
     int element;
-    int    new_element;
+    int new_element;
     int position;
     int at_position;
     bool sorted = false;

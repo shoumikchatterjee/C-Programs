@@ -37,7 +37,7 @@ int poly1[13];
 int poly2[13];
 int right_term[13];
 
-} // end class Polynomial
+}  // end class Polynomial
 
 
 // Polynomial.cpp

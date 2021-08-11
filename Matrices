@@ -83,7 +83,7 @@ return 0;
 
 // Call by reference: pass address (*<variable name>) of original variable as parameter (&<variable name>) and will modify original copy 
 
-//Input function to enter number of rows and columns up to 10, then input element values
+// Input function to enter number of rows and columns up to 10, then input element values
 
 
 void input() {
